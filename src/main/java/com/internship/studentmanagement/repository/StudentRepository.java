@@ -40,4 +40,14 @@ public class StudentRepository {
 
         return false;
     }
+
+    public boolean emailExistsForAnotherStudent(String email, int currentStudentId) {
+        for (Student student : students) {
+            if (student.getId() != currentStudentId && student.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

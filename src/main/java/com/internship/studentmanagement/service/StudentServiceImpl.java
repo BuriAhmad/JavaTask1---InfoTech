@@ -1,7 +1,10 @@
 package com.internship.studentmanagement.service;
 
+import com.internship.studentmanagement.exception.DuplicateEmailException;
+import com.internship.studentmanagement.exception.StudentNotFoundException;
 import com.internship.studentmanagement.model.Student;
 import com.internship.studentmanagement.repository.StudentRepository;
+import com.internship.studentmanagement.validator.StudentValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void addStudent(Student student) {
+        StudentValidator.validateStudent(student);
+
+        if (studentRepository.emailExists(student.getEmail())) {
+            throw new DuplicateEmailException("Email already exists.");
+        }
+
         student.setId(nextId);
         nextId++;
 
@@ -26,7 +35,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student searchStudentById(int id) {
-        return studentRepository.findById(id);
+        Student student = studentRepository.findById(id);
+
+        if (student == null) {
+            throw new StudentNotFoundException("Student with ID " + id + " not found.");
+        }
+
+        return student;
     }
 
     @Override
@@ -44,10 +59,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void updateStudent(int id, Student updatedStudent) {
-        Student existingStudent = studentRepository.findById(id);
+        Student existingStudent = searchStudentById(id);
 
-        if (existingStudent == null) {
-            return;
+        StudentValidator.validateStudent(updatedStudent);
+
+        if (studentRepository.emailExistsForAnotherStudent(updatedStudent.getEmail(), id)) {
+            throw new DuplicateEmailException("Email already exists.");
         }
 
         existingStudent.setName(updatedStudent.getName());
@@ -58,10 +75,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(int id) {
-        Student student = studentRepository.findById(id);
-
-        if (student != null) {
-            studentRepository.delete(student);
-        }
+        Student student = searchStudentById(id);
+        studentRepository.delete(student);
     }
 }
