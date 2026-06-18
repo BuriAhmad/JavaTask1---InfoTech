@@ -15,10 +15,6 @@ public class Main {
     public static void main(String[] args) {
         StudentService studentService = new StudentServiceImpl();
 
-        System.out.println("==================================");
-        System.out.println(" Student Management Basic Tests");
-        System.out.println("==================================");
-
         testAddStudents(studentService);
         testViewAllStudents(studentService);
         testSearchStudentById(studentService);
@@ -137,18 +133,8 @@ public class Main {
     }
 
     private static void printTestSummary() {
-        System.out.println();
-        System.out.println("==================================");
-        System.out.println(" Test Summary");
-        System.out.println("==================================");
         System.out.println("Passed: " + passedTests);
         System.out.println("Failed: " + failedTests);
-        System.out.println("Total:  " + (passedTests + failedTests));
-
-        if (failedTests == 0) {
-            System.out.println("Result: All basic tests passed.");
-        } else {
-            System.out.println("Result: Some tests failed. Check the failed cases above.");
-        }
+        System.out.println("Total: " + (passedTests + failedTests));
     }
 }
