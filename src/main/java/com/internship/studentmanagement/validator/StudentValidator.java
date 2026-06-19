@@ -8,6 +8,10 @@ import java.time.LocalDate;
 
 public class StudentValidator {
 
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)+$";
+    private static final String NAME_REGEX = "^[A-Za-z]+(?: [A-Za-z]+)*$";
+    private static final String MOBILE_NUMBER_REGEX = "^\\+92\\d{10}$";
+
     private StudentValidator() {
     }
 
@@ -27,8 +31,8 @@ public class StudentValidator {
             throw new ValidationException("Name must be between 3 and 50 characters.");
         }
 
-        if (!name.matches("^[A-Za-z ]+$")) {
-            throw new ValidationException("Name must contain only alphabets and spaces.");
+        if (!name.matches(NAME_REGEX)) {
+            throw new ValidationException("Name must contain only alphabets and single spaces between words.");
         }
     }
 
@@ -37,8 +41,8 @@ public class StudentValidator {
             throw new ValidationException("Email is required.");
         }
 
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            throw new ValidationException("Invalid email format.");
+        if (!email.matches(EMAIL_REGEX)) {
+            throw new ValidationException("Invalid email format. Use something like name@example.com.");
         }
     }
 
@@ -63,8 +67,8 @@ public class StudentValidator {
             throw new ValidationException("Mobile number is required.");
         }
 
-        if (!mobileNumber.matches("^\\+92\\d{10}$")) {
-            throw new ValidationException("Mobile number must follow the format +923126665505.");
+        if (!mobileNumber.matches(MOBILE_NUMBER_REGEX)) {
+            throw new ValidationException("Mobile number must follow the format +92XXXXXXXXXX.");
         }
     }
 }
