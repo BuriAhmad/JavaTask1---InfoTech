@@ -128,10 +128,10 @@ public class ConsoleMenu {
 
     private Student readStudentDetails() {
         Student student = new Student();
-        student.setName(inputUtil.readLine("Enter name: "));
-        student.setEmail(inputUtil.readLine("Enter email: "));
+        student.setName(inputUtil.readValidName("Enter name: "));
+        student.setEmail(inputUtil.readValidEmail("Enter email: "));
         student.setDateOfBirth(inputUtil.readDate("Enter date of birth yyyy-mm-dd: "));
-        student.setMobileNumber(inputUtil.readLine("Enter mobile number: "));
+        student.setMobileNumber(inputUtil.readValidMobileNumber("Enter mobile number: "));
         return student;
     }
 
